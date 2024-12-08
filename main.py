@@ -21,13 +21,17 @@ class MainWindow(QMainWindow):
         home_btn.triggered.connect(self.navigate_home)
         navbar.addAction(home_btn)
 
+        spacer = QWidget()
+        spacer.setFixedWidth(25)
+        navbar.addWidget(spacer)
+
         back_icon = QIcon("./img/back.png")
         back_btn = QAction(back_icon,'Back', self)
         back_btn.triggered.connect(self.browser.back)
         navbar.addAction(back_btn)
 
         reload_icon = QIcon("./img/reload.png")
-        reload_btn = QAction(reload_icon,'reload', self)
+        reload_btn = QAction(reload_icon,'Reload', self)
         reload_btn.triggered.connect(self.browser.reload)
         navbar.addAction(reload_btn)
 
