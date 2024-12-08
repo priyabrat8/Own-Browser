@@ -24,9 +24,7 @@ class MainWindow(QMainWindow):
         home_btn.triggered.connect(self.navigate_home)
         navbar.addAction(home_btn)
 
-        spacer = QWidget()
-        spacer.setFixedWidth(25)
-        navbar.addWidget(spacer)
+        self.add_space(25,navbar)
 
         back_icon = QIcon(self.icon_path+"back.png")
         back_btn = QAction(back_icon,'Back', self)
@@ -43,18 +41,36 @@ class MainWindow(QMainWindow):
         forward_btn.triggered.connect(self.browser.forward)
         navbar.addAction(forward_btn)
 
-        
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        navbar.addWidget(spacer)
 
-        # self.url_bar = QLineEdit()
-        # self.url_bar.returnPressed.connect(self.navigate_to_url)
-        # navbar.addWidget(self.url_bar)
+        menu_btn = QPushButton("...") 
+        menu_btn.setFixedSize(50, 30)
+        menu_btn.clicked.connect(self.show_options_menu)
+        navbar.addWidget(menu_btn)
+
+        self.add_space(25,navbar)
+       
      
     def navigate_home(self):
         self.browser.setUrl(QUrl('https://google.com'))
     
-    # def navigate_to_url(self):
-    #     url = self.url_bar.text()
-    #     self.browser.setUrl(QUrl(url))
+    def navigate_to(self, url):
+        self.browser.setUrl(QUrl(url))
+    
+    def add_space(self,size,navbar):
+        spacer = QWidget()
+        spacer.setFixedWidth(size)
+        navbar.addWidget(spacer)
+
+    def show_options_menu(self):
+        menu = QMenu(self)
+        menu.addAction(QIcon(self.icon_path+"explainshell.png"),"Kali Command", lambda: self.navigate_to("https://explainshell.com/"))
+        menu.addAction(QIcon(self.icon_path+"metaspliot.png"),"Metasploit", lambda: self.navigate_to("https://www.metasploit.com/"))
+        menu.addAction(QIcon(self.icon_path+"hacktricks.png"),"Hacktricks", lambda: self.navigate_to("https://book.hacktricks.xyz/"))
+
+        menu.exec_(QCursor.pos())
 
 app = QApplication(sys.argv)
 QApplication.setApplicationName("Flash Browse")
